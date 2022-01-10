@@ -4,13 +4,13 @@ from datetime import timedelta
 import datetime
 
 from tasks.database import \
-    retrieve_from_start_date,\
-    retrieve_all_from_db,\
+    retrieve_from_start_date, \
+    retrieve_all_from_db, \
     retrieve_year_from_db, \
     retrieve_today_from_db, \
     retrieve_week_from_db, \
     retrieve_all_entries_from_db, \
-    retrieve_from_start_to_end_date
+    retrieve_from_start_to_end_date, retrieve_category, retrieve_category_by_date, retrieve_categories
 
 
 def get_now_datetime():
@@ -54,9 +54,23 @@ def get_all_statistics():
     return data
 
 
+def get_category_statistics(category):
+    data = retrieve_category(category)
+    return {category: data}
+
+
+def get_category_statistics_by_date(values):
+    data = retrieve_category_by_date(**values)
+    return data
+
+
 def get_all_entries():
     data = retrieve_all_entries_from_db()
     return data
+
+
+def get_all_categories():
+    return retrieve_categories()
 
 
 if __name__ == '__main__':

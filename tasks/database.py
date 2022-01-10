@@ -53,6 +53,26 @@ def retrieve_from_start_to_end_date(start_date, end_date):
     return a
 
 
+def retrieve_category(category):
+    cursor.execute(
+        f"SELECT sum(amount) FROM expense "
+        f"WHERE category_codename = '{category}';"
+    )
+    a = cursor.fetchone()
+    return a[0]
+
+
+def retrieve_category_by_date(category, start_date, end_date):
+    cursor.execute(
+        f"SELECT sum(amount) FROM expense "
+        f"WHERE category_codename = '{category}' "
+        f"AND date(created_time) >= '{start_date}' "
+        f"AND date(created_time) <= '{end_date}';"
+    )
+    a = cursor.fetchone()
+    return a[0]
+
+
 def retrieve_week_from_db(date):
     # cannot delete this func now due to flask error. Try again later
     pass
@@ -87,6 +107,13 @@ def retrieve_all_entries_from_db():
     )
     a = cursor.fetchall()
     return a
+
+
+def retrieve_categories():
+    cursor.execute(
+        f"SELECT * FROM category"
+    )
+    return cursor.fetchall()
 
 
 check_db_exists()

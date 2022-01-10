@@ -1,14 +1,14 @@
 from flask import Blueprint, request, render_template
 import datetime
 import tasks.database as db
-from .utils import\
+from .utils import \
     retrieve_year_from_db, \
-    retrieve_all_from_db,\
+    retrieve_all_from_db, \
     get_today_statistics, \
     get_week_statistics, \
     get_month_statistics, \
-    get_all_entries, \
-    get_start_end_date_statistics
+    get_start_end_date_statistics, \
+    get_all_entries, get_category_statistics, get_category_statistics_by_date, get_all_categories
 
 expenses = Blueprint('expenses',
                      __name__,
@@ -39,7 +39,7 @@ def add_task():
 @expenses.route('/sum/all')
 def get_all_expenses_sum():
     return {
-        "All spendings": retrieve_all_from_db()
+        "All": retrieve_all_from_db()
     }
 
 
@@ -48,21 +48,21 @@ def get_period_expenses_sum():
     values = request.get_json()
 
     return {
-        "Period spendings": get_start_end_date_statistics(**values)
+        "period": get_start_end_date_statistics(**values)
     }
 
 
 @expenses.route('/sum/year')
 def get_last_year_expenses_sum():
     return {
-        "This year spending": retrieve_year_from_db(datetime.datetime.now())
+        "year": retrieve_year_from_db(datetime.datetime.now())
     }
 
 
 @expenses.route('/sum/month')
 def get_last_month_expenses_sum():
     return {
-        "This month spending": get_month_statistics()
+        "month": get_month_statistics()
     }
 
 
@@ -71,7 +71,6 @@ def get_last_week_expenses_sum():
     data = get_week_statistics()
     return {
         "week": data
-        # "This month spending": retrieve_month_from_db(datetime.datetime.now())
     }
 
 
@@ -81,7 +80,22 @@ def get_today_expenses_sum():
         "today": get_today_statistics()
     }
 
-    pass
+
+@expenses.route('/sum/category/<category>')
+def get_expenses_by_category(category):
+    return get_category_statistics(category)
+
+
+@expenses.route('/sum/category', methods=["POST"])
+def get_expenses_by_category_and_date():
+    values = request.get_json()
+    return {"sum": get_category_statistics_by_date(values)}
+
+
+@expenses.route('/categories')
+def get_categories():
+    return f"{get_all_categories()}"
+    # return render_template('show_categories.html', categories=get_all_categories())
 
 
 @expenses.route('/all')
@@ -90,3 +104,4 @@ def get_all_expenses():
     summ = get_all_expenses_sum()
 
     return render_template('show_expenses.html', entries=all_entries, sum=summ)
+

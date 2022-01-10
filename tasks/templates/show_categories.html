@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Categories</title>
+</head>
+<body>
+Существующие категории:
+{% for category in categories %}
+<p>{{ category[0] }}</p>
+<p>{{category[1]}}</p>
+{% if  category[2] == 1  %}
+<p>Это базовая трата</p>
+{% else %}
+<p>Это излишество</p>
+{% endif %}
+{% endfor %}
+
+</body>
+</html>

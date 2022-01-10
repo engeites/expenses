@@ -15,6 +15,7 @@ create table expense(
     amount integer,
     created_time datetime,
     category_codename integer,
+    base_expense boolean,
     raw_text text,
     FOREIGN KEY (category_codename) references category(codename)
 );
