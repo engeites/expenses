@@ -6,11 +6,11 @@ cursor = conn.cursor()
 
 
 def _create_db():
-    with open(os.path.join('tasks', 'create_db.sql'), 'r', encoding='utf-8') as fout:
+    THIS_FOLDER = os.path.dirname(os.path.abspath(__file__))
+    with open(os.path.join(THIS_FOLDER, 'create_db.sql'), 'r', encoding='utf-8') as fout:
         sql = fout.read()
 
     cursor.executescript(sql)
-    print('script has been executed!')
     conn.commit()
 
 
