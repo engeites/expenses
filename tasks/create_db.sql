@@ -13,7 +13,7 @@ create table category(
 create table expense(
     id integer primary key,
     amount integer,
-    created_time datetime DEFAULT CURRENT_TIMESTAMP,
+    created_time datetime,
     category_codename integer,
     raw_text text,
     FOREIGN KEY (category_codename) references category(codename)

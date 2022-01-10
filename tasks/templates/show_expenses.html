@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>All expenses</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('expenses.static', filename='styles.css') }}">
+</head>
+<body>
+<h1>Траты за всё время:</h1>
+<br>
+<h2>Общие траты: {{ sum["All spendings"] }}</h2>
+<br>
+<a href="{{ url_for('index') }}">ff</a>
+
+<h3>Детали:</h3>
+{% for i in entries %}
+
+    <div id="expense" class="Cart-Container">
+        <h4>Покупка: {{ i[4] }}</h4>
+        <p>Время: {{ i[2] }}</p>
+        <p>категория: {{ i[3] }}</p>
+        <p><b>потрачено: {{ i[1] }}</b></p>
+    </div>
+{% endfor %}
+</body>
+</html>

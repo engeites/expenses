@@ -34,6 +34,61 @@ def insert_to_db(table: str, column_values:dict):
     conn.commit()
 
 
+def retrieve_from_start_date(start_date):
+    cursor.execute(
+        f"SELECT sum(amount) FROM expense "
+        f"WHERE date(created_time) >= '{start_date}' "
+    )
+    a = cursor.fetchone()
+    return a[0]
+
+
+def retrieve_from_start_to_end_date(start_date, end_date):
+    cursor.execute(
+        f"SELECT sum(amount) FROM expense "
+        f"WHERE date(created_time) >= '{start_date}' "
+        f"AND date(created_time) <= '{end_date}';"
+    )
+    a = cursor.fetchone()
+    return a
+
+
+def retrieve_week_from_db(date):
+    # cannot delete this func now due to flask error. Try again later
+    pass
+
+
+def retrieve_year_from_db(start_date):
+    # cannot delete this func now due to flask error. Try again later
+    pass
+
+
+def retrieve_today_from_db():
+    cursor.execute(
+        f"SELECT sum(amount) FROM expense "
+        f"WHERE date(created_time) = date('now', 'localtime') "
+    )
+    a = cursor.fetchone()
+    return a[0]
+
+
+def retrieve_all_from_db():
+    cursor.execute(
+        f"SELECT sum(amount) FROM expense "
+    )
+    a = cursor.fetchone()
+    return a[0]
+
+
+def retrieve_all_entries_from_db():
+    cursor.execute(
+        f"SELECT * FROM expense "
+        f"order by created_time desc"
+    )
+    a = cursor.fetchall()
+    return a
+
+
 check_db_exists()
 
 
