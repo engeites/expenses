@@ -1,12 +1,14 @@
 import sqlite3
 import os
 
-conn = sqlite3.connect(os.path.join("tasks", "tasks.db"), check_same_thread=False)
+THIS_FOLDER = os.path.dirname(os.path.abspath(__file__))
+
+
+conn = sqlite3.connect(os.path.join(THIS_FOLDER, "tasks.db"), check_same_thread=False)
 cursor = conn.cursor()
 
 
 def _create_db():
-    THIS_FOLDER = os.path.dirname(os.path.abspath(__file__))
 
     with open(os.path.join(THIS_FOLDER, 'create_db.sql'), 'r', encoding='utf-8') as fout:
         sql = fout.read()
