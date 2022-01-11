@@ -4,6 +4,7 @@ import tasks.database as db
 from .utils import \
     retrieve_year_from_db, \
     retrieve_all_from_db, \
+    get_year_statistics, \
     get_today_statistics, \
     get_week_statistics, \
     get_month_statistics, \
@@ -27,13 +28,13 @@ def index():
     return "tasks!"
 
 
-@expenses.route('/add', methods=['GET', 'POST'])
+@expenses.route('/add', methods=['POST'])
 def add_task():
     # TODO: This route needs to be reconsidered -> make add_expense func return a result
     if request.method == "POST":
         values = request.get_json()
         add_expense(values)
-        return f"success!"
+        return {"code": 0, "msg": "success"}
 
 
 @expenses.route('/sum/all')
@@ -54,8 +55,9 @@ def get_period_expenses_sum():
 
 @expenses.route('/sum/year')
 def get_last_year_expenses_sum():
+    # TODO: do not call db directly from here
     return {
-        "year": retrieve_year_from_db(datetime.datetime.now())
+        "year": get_year_statistics()
     }
 
 
@@ -77,7 +79,7 @@ def get_last_week_expenses_sum():
 @expenses.route('/sum/day')
 def get_today_expenses_sum():
     return {
-        "today": get_today_statistics()
+        "day": get_today_statistics()
     }
 
 

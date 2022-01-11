@@ -7,6 +7,7 @@ cursor = conn.cursor()
 
 def _create_db():
     THIS_FOLDER = os.path.dirname(os.path.abspath(__file__))
+
     with open(os.path.join(THIS_FOLDER, 'create_db.sql'), 'r', encoding='utf-8') as fout:
         sql = fout.read()
 
